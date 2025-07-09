@@ -17,22 +17,16 @@ declare (strict_types=1);
  * 
 **/
 
-namespace DiscordWebhook\content\component;
+namespace DiscordWebhook\exception;
 
-use DiscordWebhook\content\DiscordContent;
+use Exception;
 
-abstract class DiscordComponent extends DiscordContent
+class InvalidMessageException extends Exception
 {
 
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
-
-    public function canBeUsed() : bool 
+    public function __construct(string $reason)
     {
-        return true;
+        parent::__construct("Invalid DiscordMessage: $reason");
     }
-
+    
 }

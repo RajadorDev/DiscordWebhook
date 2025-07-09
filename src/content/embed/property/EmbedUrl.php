@@ -19,15 +19,10 @@ declare (strict_types=1);
 
 namespace DiscordWebhook\content\embed\property;
 
-use DiscordWebhook\content\component\StaticComponent;
+use DiscordWebhook\content\component\UrlComponent;
 
-class EmbedUrl extends StaticComponent
+class EmbedUrl extends UrlComponent
 {
-
-    public function __construct(string $url)
-    {
-        parent::__construct($url);
-    }
 
     public function getId(): string
     {

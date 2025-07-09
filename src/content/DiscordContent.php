@@ -49,6 +49,16 @@ abstract class DiscordContent implements JsonSerializable
         return false;
     }
 
+    public function getComponent(string $id) : ?DiscordComponent
+    {
+        return $this->components[$id] ?? null;
+    }
+
+    public function hasComponent(string $id) : bool 
+    {
+        return !is_null($this->getComponent($id));
+    }
+
     /**
      * @return DiscordComponent[]
      */

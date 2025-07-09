@@ -17,22 +17,14 @@ declare (strict_types=1);
  * 
 **/
 
-namespace DiscordWebhook\content\component;
+namespace DiscordWebhook\content\embed\property;
 
-use DiscordWebhook\content\DiscordContent;
-
-abstract class DiscordComponent extends DiscordContent
+class Thumbnail extends Image
 {
 
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
-
-    public function canBeUsed() : bool 
+    public function getId(): string
     {
-        return true;
+        return 'thumbnail';
     }
-
+    
 }

@@ -17,22 +17,17 @@ declare (strict_types=1);
  * 
 **/
 
-namespace DiscordWebhook\content\component;
+namespace DiscordWebhook\content;
 
-use DiscordWebhook\content\DiscordContent;
-
-abstract class DiscordComponent extends DiscordContent
+class DiscordSavedMessage extends DiscordMessage
 {
 
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
+    public function __construct(protected array $serializedComponents)
+    {}
 
-    public function canBeUsed() : bool 
+    public function jsonSerialize(): mixed
     {
-        return true;
+        return $this->serializedComponents;
     }
-
+    
 }

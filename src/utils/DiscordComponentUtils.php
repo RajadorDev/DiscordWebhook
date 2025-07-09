@@ -25,12 +25,14 @@ final class DiscordComponentUtils
     /**
      * @param array<string,mixed> $data
      * @param array<string,mixed> $list
+     * @param callable|null $callback `(mixed) : bool`
      */
-    public static function addIfNotNull(array &$data, array $list) : void 
+    public static function addIfTrue(array &$data, array $list, ?callable $callback = null) : void 
     {
+        $callback = $callback ?? fn (mixed $value) : bool => !is_null($value);
         foreach ($list as $id => $value)
         {
-            if (!is_null($value))
+            if ($callback($value))
             {
                 $data[$id] = $value;
             }

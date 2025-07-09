@@ -19,6 +19,8 @@ declare (strict_types=1);
 
 namespace DiscordWebhook\content\component;
 
+use DiscordWebhook\content\embed\Embed;
+
 class EmbedList extends DiscordComponent
 {
 

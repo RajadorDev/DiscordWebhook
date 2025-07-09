@@ -17,22 +17,22 @@ declare (strict_types=1);
  * 
 **/
 
-namespace DiscordWebhook\content\component;
+namespace DiscordWebhook\content\embed\property;
 
-use DiscordWebhook\content\DiscordContent;
+use DiscordWebhook\content\component\StaticComponent;
+use DiscordWebhook\content\component\UrlComponent;
 
-abstract class DiscordComponent extends DiscordContent
+class Image extends StaticComponent
 {
-
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
-
-    public function canBeUsed() : bool 
+    public function __construct(string $url)
     {
-        return true;
+        UrlComponent::parseUrl($url);
+        parent::__construct(['url' => $url]);
     }
 
+    public function getId(): string
+    {
+        return 'image';
+    }
+    
 }

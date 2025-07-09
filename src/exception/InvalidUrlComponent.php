@@ -17,22 +17,16 @@ declare (strict_types=1);
  * 
 **/
 
-namespace DiscordWebhook\content\component;
+namespace DiscordWebhook\exception;
 
-use DiscordWebhook\content\DiscordContent;
+use Exception;
 
-abstract class DiscordComponent extends DiscordContent
+class InvalidUrlComponent extends Exception
 {
 
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
-
-    public function canBeUsed() : bool 
+    public function __construct(string $url)
     {
-        return true;
+        parent::__construct("string \"$url\" is not a valid url");
     }
-
+    
 }

@@ -19,20 +19,17 @@ declare (strict_types=1);
 
 namespace DiscordWebhook\content\component;
 
-use DiscordWebhook\content\DiscordContent;
-
-abstract class DiscordComponent extends DiscordContent
+class TextContent extends StaticComponent
 {
 
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
-
-    public function canBeUsed() : bool 
+    public function __construct(string $content)
     {
-        return true;
+        parent::__construct($content);
     }
 
+    public function getId(): string
+    {
+        return 'content';
+    }
+    
 }

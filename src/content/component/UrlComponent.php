@@ -19,20 +19,23 @@ declare (strict_types=1);
 
 namespace DiscordWebhook\content\component;
 
-use DiscordWebhook\content\DiscordContent;
+use DiscordWebhook\exception\InvalidUrlComponent;
 
-abstract class DiscordComponent extends DiscordContent
+abstract class UrlComponent extends StaticComponent
 {
 
-    /**
-     * Returns the id that will be added inside DiscordContent object
-     * @return string
-     */
-    abstract public function getId() : string;
-
-    public function canBeUsed() : bool 
+    public function __construct(string $url)
     {
-        return true;
+        self::parseUrl($url);
+        parent::__construct($url);
+    }
+
+    public static function parseUrl(string $url) : void 
+    {
+        if (!parse_url($url))
+        {
+            throw new InvalidUrlComponent($url);
+        }
     }
 
 }
