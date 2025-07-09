@@ -19,13 +19,13 @@ declare (strict_types=1);
 
 namespace DiscordWebhook;
 
+use Exception;
+use JsonException;
+use InvalidArgumentException;
 use DiscordWebhook\content\DiscordMessage;
 use DiscordWebhook\content\DiscordSavedMessage;
-use DiscordWebhook\exception\InvalidDiscordWebhookException;
 use DiscordWebhook\exception\WebhookSendException;
-use Exception;
-use InvalidArgumentException;
-use JsonException;
+use DiscordWebhook\exception\InvalidDiscordWebhookException;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class WebHook 
@@ -150,7 +150,7 @@ class WebHook
      * @return void
      * @throws WebhookSendException
      */
-    public function send(DiscordMessage $message, int $timeout = 5, ?array $curlSettings = null, bool $mergeDefaultSettings = true) : void 
+    public function send(DiscordMessage $message, int $timeout = 5, ?array $curlSettings = null, bool $mergeDefaultSettings = true) : WebHook 
     {
         $message->valid();
         if ($curlSettings)
@@ -188,6 +188,7 @@ class WebHook
             }
             throw new WebhookSendException("HTTP code: $code $response");
         }
+        return $this;
     }
 
 }

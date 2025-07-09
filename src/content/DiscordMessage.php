@@ -31,6 +31,18 @@ class DiscordMessage extends DiscordContent
     /** @var EmbedList */
     protected EmbedList $embeds;
 
+    /**
+     * @param string|null $content
+     * @param string|null $username
+     * @param string|null $avatarURL
+     * @param Embed[] $embeds
+     * @return DiscordMessage
+     */
+    public static function create(?string $content = null, ?string $username = null, ?string $avatarURL = null, array $embeds = []) : DiscordMessage
+    {
+        return new self($content, $username, $avatarURL, $embeds);
+    }
+
     public function __construct(
         ?string $content = null,
         ?string $username = null,
@@ -38,6 +50,7 @@ class DiscordMessage extends DiscordContent
         array $embeds = []
     )
     {
+        $this->embeds = new EmbedList;
         foreach (['content' => 'setTextContent', 'username' => 'setUsername', 'avatarUrl' => 'setAvatar'] as $varName => $varSetter)
         {
             $var = $$varName;
