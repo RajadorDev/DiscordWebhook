@@ -1,0 +1,17 @@
+{
+    "name": "rajador/discord-webhook",
+    "description": "Webhook lib to discord",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "DiscordWebhook\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "RajadorDev",
+            "email": "rajadordeveloper@gmail.com"
+        }
+    ],
+    "require": {}
+}
