@@ -49,7 +49,7 @@ class Embed extends DiscordContent
             'footer'
         ] as $varname) {
             $var = $$varname;
-            if (!is_null($varname))
+            if (!is_null($var))
             {
                 $functionName = 'set' . ucfirst($varname);
                 $this->{$functionName}($var);

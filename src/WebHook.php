@@ -33,7 +33,7 @@ class WebHook
 
     const DISCORD_HOST = 'discord.com';
 
-    const WEBHOOK_API_PATH = 'webhook';
+    const WEBHOOK_API_PATH = 'webhooks';
 
     const DATA_URL = 'webhook_url';
 
@@ -42,7 +42,8 @@ class WebHook
     const CURL_SETTINGS = [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYSTATUS => true,
-        CURLOPT_POST => true
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json']
     ];
 
     public function __construct(
@@ -64,8 +65,8 @@ class WebHook
      */
     public static function checkURL(string $url) : void
     {
-        $url = parse_url(self::DISCORD_HOST);
-        if (!is_array($url) || !isset($url['host'], $url['path']) || strtolower($url['host']) != self::DISCORD_HOST || !str_contains(self::WEBHOOK_API_PATH, $url['path']))
+        $urlData = parse_url(self::DISCORD_HOST);
+        if (!is_array($urlData) || !isset($urlData['path']) || strtolower($urlData['path']) != self::DISCORD_HOST)
         {
             throw new InvalidDiscordWebhookException($url);
         }
@@ -147,7 +148,7 @@ class WebHook
      * @param integer $timeout
      * @param array|null $curlSettings
      * @param boolean $mergeDefaultSettings
-     * @return void
+     * @return WebHook
      * @throws WebhookSendException
      */
     public function send(DiscordMessage $message, int $timeout = 5, ?array $curlSettings = null, bool $mergeDefaultSettings = true) : WebHook 
@@ -157,13 +158,18 @@ class WebHook
         {
             if ($mergeDefaultSettings)
             {
-                $curlSettings = array_merge(self::CURL_SETTINGS, $curlSettings);
+                $oldCurlSettings = self::CURL_SETTINGS;
+                foreach ($curlSettings as $id => $setting)
+                {
+                    $oldCurlSettings[$id] = $setting;
+                }
+                $curlSettings = $oldCurlSettings;
             }
         } else {
             $curlSettings = self::CURL_SETTINGS;
         }
         $curl = curl_init($this->getUrl());
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $message->jsonSerialize());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($message->jsonSerialize()));
         curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
         curl_setopt_array($curl, $curlSettings);
         $response = curl_exec($curl);
@@ -189,6 +195,21 @@ class WebHook
             throw new WebhookSendException("HTTP code: $code $response");
         }
         return $this;
+    }
+
+    /**
+     * Send webhook statically
+     *
+     * @param string $toURL
+     * @param DiscordMessage $message
+     * @param integer $timeout
+     * @param array|null $curlSettings
+     * @param boolean $mergeDefaultSettings
+     * @return WebHook
+     */
+    public static function staticSend(string $toURL, DiscordMessage $message, int $timeout = 5, ?array $curlSettings = null, bool $mergeDefaultSettings = true) : WebHook
+    {
+        return (new WebHook($toURL))->send($message, $timeout, $curlSettings, $mergeDefaultSettings);
     }
 
 }

@@ -23,6 +23,7 @@ use DiscordWebhook\content\component\Avatar;
 use DiscordWebhook\content\component\EmbedList;
 use DiscordWebhook\content\component\TextContent;
 use DiscordWebhook\content\component\Username;
+use DiscordWebhook\content\embed\Embed;
 use DiscordWebhook\exception\InvalidMessageException;
 
 class DiscordMessage extends DiscordContent
@@ -51,6 +52,7 @@ class DiscordMessage extends DiscordContent
     )
     {
         $this->embeds = new EmbedList;
+        $this->addComponent($this->embeds);
         foreach (['content' => 'setTextContent', 'username' => 'setUsername', 'avatarUrl' => 'setAvatar'] as $varName => $varSetter)
         {
             $var = $$varName;
@@ -80,6 +82,17 @@ class DiscordMessage extends DiscordContent
     public function setAvatar(string $url) : DiscordMessage
     {
         $this->addComponent(new Avatar($url));
+        return $this;
+    }
+
+    public function getEmbedList() : EmbedList
+    {
+        return $this->embeds;
+    }
+
+    public function addEmbed(Embed $embed) : DiscordMessage
+    {
+        $this->embeds->add($embed);
         return $this;
     }
 

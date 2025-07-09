@@ -72,7 +72,10 @@ abstract class DiscordContent implements JsonSerializable
         $components = [];
         foreach ($this->getComponents() as $component)
         {
-            $components[$component->getId()] = $component->jsonSerialize();
+            if ($component->canBeUsed())
+            {
+                $components[$component->getId()] = $component->jsonSerialize();
+            }
         }
         return array_merge(
             $components,
