@@ -30,12 +30,13 @@ abstract class UrlComponent extends StaticComponent
         parent::__construct($url);
     }
 
-    public static function parseUrl(string $url) : void 
+    public static function parseUrl(string $url) : bool 
     {
         if (!parse_url($url))
         {
             throw new InvalidUrlComponent($url);
         }
+        return true;
     }
 
 }

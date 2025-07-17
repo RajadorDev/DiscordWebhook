@@ -26,7 +26,6 @@ use DiscordWebhook\content\DiscordMessage;
 use DiscordWebhook\content\DiscordSavedMessage;
 use DiscordWebhook\exception\WebhookSendException;
 use DiscordWebhook\exception\InvalidDiscordWebhookException;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class WebHook 
 {
@@ -113,7 +112,7 @@ class WebHook
                 throw new InvalidArgumentException("File $fileName have no valid webhook data");
             }
         } else {
-            throw new FileNotFoundException("File $fileName does not found");
+            throw new Exception("File $fileName does not found");
         }
     }
 

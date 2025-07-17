@@ -17,22 +17,25 @@ declare (strict_types=1);
  * 
 **/
 
-namespace DiscordWebhook\content;
+namespace DiscordWebhook\content\embed\property;
 
-class DiscordSavedMessage extends DiscordMessage
+use DiscordWebhook\content\component\StaticComponent;
+use DiscordWebhook\utils\DiscordComponentUtils;
+
+class Timestamp extends StaticComponent
 {
 
-    public function __construct(protected array $serializedComponents)
+    /**
+     * @param string|integer $timestamp
+     */
+    public function __construct(string|int $timestamp)
     {
-        parent::__construct();
+        parent::__construct(is_int($timestamp) ? DiscordComponentUtils::timestamp($timestamp) : $timestamp);
     }
 
-    public function jsonSerialize(): mixed
+    public function getId(): string
     {
-        return $this->serializedComponents;
+        return 'timestamp';
     }
-
-    public function valid(): void
-    {}
     
 }

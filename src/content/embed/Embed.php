@@ -26,18 +26,20 @@ use DiscordWebhook\content\embed\property\Description;
 use DiscordWebhook\content\embed\property\EmbedUrl;
 use DiscordWebhook\content\embed\property\Footer;
 use DiscordWebhook\content\embed\property\Image;
+use DiscordWebhook\content\embed\property\Timestamp;
 use DiscordWebhook\content\embed\property\Title;
 
 class Embed extends DiscordContent
 {
 
     public function __construct(
-        protected string $title,
-        protected ?string $description = null,
-        protected ?int $color = null,
-        protected ?string $url = null,
-        protected ?Author $author = null,
-        protected ?Footer $footer = null
+        string $title,
+        ?string $description = null,
+        ?int $color = null,
+        ?string $url = null,
+        ?Author $author = null,
+        ?Footer $footer = null,
+        ?string $timestamp = null
     )
     {
         $this->setTitle($title);
@@ -46,7 +48,8 @@ class Embed extends DiscordContent
             'color',
             'url',
             'author',
-            'footer'
+            'footer',
+            'timestamp'
         ] as $varname) {
             $var = $$varname;
             if (!is_null($var))
@@ -72,10 +75,11 @@ class Embed extends DiscordContent
         ?int $color = null,
         ?string $url = null,
         ?Author $author = null,
-        ?Footer $footer = null
+        ?Footer $footer = null,
+        ?string $timestamp = null
     ) : self
     {
-        return new self($title, $description, $color, $url, $author, $footer);
+        return new self($title, $description, $color, $url, $author, $footer, $timestamp);
     }
 
     public function setTitle(string $title) : Embed
@@ -111,6 +115,18 @@ class Embed extends DiscordContent
     public function setFooter(Footer $footer) : Embed
     {
         $this->addComponent($footer);
+        return $this;
+    }
+
+    public function setTimestamp(string|int $timestamp) : Embed
+    {
+        $this->addComponent(new Timestamp($timestamp));
+        return $this;
+    }
+
+    public function generateTimestamp() : Embed
+    {
+        $this->setTimestamp(time());
         return $this;
     }
 

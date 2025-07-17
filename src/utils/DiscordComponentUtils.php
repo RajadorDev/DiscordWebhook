@@ -38,5 +38,10 @@ final class DiscordComponentUtils
             }
         }
     }
+
+    public static function timestamp(float $time) : string  
+    {
+        return date('Y-m-d\TH:i:s\Z', (int) $time);
+    }
     
 }

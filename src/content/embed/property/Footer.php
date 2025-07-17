@@ -28,15 +28,23 @@ class Footer extends StaticComponent
 
     /**
      * @param string $text
-     * @param string|null $iconUrl
-     * @param string|null $timestamp
+     * @param string|null $iconURL
+     * @return self
      */
-    public function __construct(string $text, ?string $iconUrl = null, ? string $timestamp = null)
+    public static function create(string $text, ?string $iconURL = null) : self 
+    {
+        return new self($text, $iconURL);
+    }
+
+    /**
+     * @param string $text
+     * @param string|null $iconUrl
+     */
+    public function __construct(string $text, ?string $iconUrl = null)
     {
         $data = ['text' => $text];
         DiscordComponentUtils::addIfTrue($data, [
-            'icon_url' => $iconUrl,
-            'timestamp' => $timestamp
+            'icon_url' => $iconUrl
         ]);
         if (isset($data['icon_url']))
         {
